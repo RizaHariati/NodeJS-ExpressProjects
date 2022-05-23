@@ -6,7 +6,7 @@ const getAllTask = async (req, res) => {
     const tasks = await Task.find({});
     res.status(StatusCodes.OK).json({ tasks });
   } catch (error) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ msg: error.message });
+    res.send(error);
   }
 };
 
@@ -30,7 +30,7 @@ const getTask = async (req, res) => {
     }
     res.status(StatusCodes.OK).json({ task });
   } catch (error) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ msg: error.message });
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ msg: "violin" });
   }
 };
 
@@ -57,14 +57,12 @@ const deleteTask = async (req, res) => {
     const { id: taskID } = req.params;
     const task = await Task.findOneAndDelete({ _id: taskID });
     if (!task) {
-      res
-        .status(StatusCodes.BAD_REQUEST)
-        .json({ msg: `Can not find task with id ${taskID}` });
+      res.status(StatusCodes.NOT_FOUND).json(error);
+      res.end();
     }
     res.status(StatusCodes.OK).json({ task });
   } catch (error) {
-    console.log(error);
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ msg: error.message });
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error);
   }
 };
 module.exports = { getAllTask, createTask, getTask, updateTask, deleteTask };
