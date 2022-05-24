@@ -12,8 +12,8 @@ app.use(express.json());
 
 /* ---------------------------- router ---------------------------- */
 app.use("/api/v1/tasks", taskRouter);
-app.use(errorHandlerMiddleware);
 app.use(notFound);
+app.use(errorHandlerMiddleware);
 const port = process.env.PORT || 3000;
 
 const start = async () => {
