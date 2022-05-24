@@ -1,5 +1,6 @@
 const { StatusCodes } = require("http-status-codes");
 const jsonwebtoken = require("jsonwebtoken");
+const UnauthorizedError = require("../errors/unauthorized");
 
 const authenticationMiddleware = (req, res, next) => {
   const authHeader = req.headers.authorization;
@@ -13,9 +14,10 @@ const authenticationMiddleware = (req, res, next) => {
 
     const { id, username } = decoded;
     req.user = { id, username };
-    next();
+    return next();
   } catch (error) {
-    console.log(error);
+    const newError = new UnauthorizedError("Please register to get the token");
+    return next(newError);
   }
 };
 
