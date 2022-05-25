@@ -2,6 +2,8 @@ const express = require("express");
 const connectDB = require("./db/connect");
 const errorHandlerMiddleware = require("./middlewares/error-handler");
 const notFound = require("./middlewares/not-found");
+const jobRouter = require("./routes/job");
+const userRouter = require("./routes/user");
 const app = express();
 require("dotenv").config();
 
@@ -20,7 +22,8 @@ app.get("/", (req, res) => {
 </div>
 `);
 });
-
+app.use("/api/v1/jobs", jobRouter);
+app.use("/api/v1/user", userRouter);
 app.use(notFound);
 app.use(errorHandlerMiddleware);
 
